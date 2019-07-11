@@ -3,7 +3,7 @@ import Calculator from "./components/Calculator";
 
 function App() {
   return (
-    <div className="text-center mt-5">
+    <div className="text-center mt-4">
       <Calculator />
     </div>
   );
