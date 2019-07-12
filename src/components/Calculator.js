@@ -21,26 +21,36 @@ class Calculator extends Component {
         this.paymentCalculator();
     }
 
+    // Limits the total bill to prevent formatting isues on front-end
     totalTracker = event => {
         let total = event.target.value;
-        if (total > 10000) {
+        if (total < 0) {
+            this.setState({
+                total: 0.00
+            });
+        } else if (total > 10000) {
             this.setState({
                 total: 9999.99
             });
         } else if (total) {
             this.setState({
                 total: total
-            })
+            });
         } else {
             this.setState({
                 total: 0.00
-            })
+            });
         };
     };
 
+    // Error handling, and limits the number of people to 100
     personTracker = event => {
         let people = event.target.value;
-        if (parseInt(people) > 100) {
+        if (people <= 0) {
+            this.setState({
+                people: 1
+            });
+        } else if (people > 100) {
             this.setState({
                 people: 100
             });
@@ -55,12 +65,17 @@ class Calculator extends Component {
         };
     };
 
+    // Error handling for tip entries
     tipTracker = event => {
         let tip = event.target.value;
-        if (tip > 100) {
+        if (tip < 0) {
+            this.setState({
+                tip: 0
+            });
+        } else if (tip > 100) {
             this.setState({
                 tip: 100
-            })
+            });
         }
         else if (tip) {
             this.setState({
@@ -75,6 +90,7 @@ class Calculator extends Component {
         this.colorChecker(tip);
     };
 
+    // A fun color-checker to encourage higher tips
     colorChecker = (num) => {
         if (num >= 25) {
             this.setState({ color: {color: "gold" }});
@@ -101,11 +117,13 @@ class Calculator extends Component {
         let pay = 0.00;
 
         switch (expression) {
+            // If rounding tip...
             case 'tip':
                 tipTotal = parseFloat(total) * tipPercent;
                 tipTotal = Math.round(parseFloat(tipTotal) / parseFloat(people));
                 pay      = (parseFloat(total) + parseFloat(tipTotal) * parseFloat(people)) / parseFloat(people);
                 break;
+            // If rounding pay...
             case 'pay':
                 let diff = 0;
                 diff = Math.round(this.state.pay) - this.state.pay;
@@ -113,6 +131,7 @@ class Calculator extends Component {
                 pay = Math.round(this.state.pay);
                 tipTotal = this.state.tipPay + diff;
                 break;
+            // Base calculation
             default:
                 tipTotal = parseFloat(total) * tipPercent;
                 pay      = (parseFloat(total) + parseFloat(tipTotal)) / parseFloat(people);
@@ -126,14 +145,17 @@ class Calculator extends Component {
         });
     };
 
+    // Rounds tip to the nearest whole-dollar value
     roundTip = () => {
         this.paymentCalculator('tip');
     };
 
+    // Rounds pay to the nearest whole-dollar value
     roundPay = () => {
         this.paymentCalculator('pay')
     }
     
+    // Renders the entire calculator to the screen.
     render() {
         return (
             <div className="container" >
