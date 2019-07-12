@@ -13,6 +13,7 @@ class Calculator extends Component {
             total: 0.00,
             tip: 15.00,
             tipPay: 0.00,
+            totalPay: 0.00,
             color: { color: 'green'}
         };
     };
@@ -141,7 +142,8 @@ class Calculator extends Component {
 
         this.setState({
             pay: pay,
-            tipPay: tipTotal
+            tipPay: tipTotal,
+            totalPay: pay * people
         });
     };
 
@@ -177,7 +179,7 @@ class Calculator extends Component {
                         </div>
                         <div className="border-left col-4 pt-2" onClick={this.roundPay}>
                             <h5>Total:</h5>
-                            <h4>${(parseFloat(this.state.pay) * parseFloat(this.state.people)).toFixed(2)}</h4>
+                            <h4>${parseFloat(this.state.totalPay).toFixed(2)}</h4>
                         </div>
                     </div>
                     <div className="row mt-4">
