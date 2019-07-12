@@ -68,17 +68,12 @@ class Calculator extends Component {
 
     // Error handling for tip entries
     tipTracker = event => {
-        let tip = event.target.value;
-        if (tip < 0) {
-            this.setState({
-                tip: 0
-            });
-        } else if (tip > 100) {
+        let tip = Math.abs(event.target.value);
+        if (tip > 100) {
             this.setState({
                 tip: 100
             });
-        }
-        else if (tip) {
+        } else if (tip) {
             this.setState({
                 tip: tip
             });
